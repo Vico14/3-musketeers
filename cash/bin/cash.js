@@ -7,6 +7,7 @@ const currencies = require('../lib/currencies.json');
 
 const API = 'https://api.fixer.io/latest';
 
+//convert function 
 const convert = configuration => {
   const {amount, to, from, response, loading} = configuration;
 
@@ -17,31 +18,31 @@ const convert = configuration => {
     if (currencies[item]) {
       loading.succeed(
         `${chalk.green(
-          money.convert(amount, {from, 'to': item}).toFixed(2)
-        )} ${`(${item})`} ${currencies[item]}`
+          money.convert(amount, {from, 'to': item}).toFixed(2) //green result (amount converterd)
+        )} ${`(${item})`} ${currencies[item]}` // of the corrency
       );
-    } else {
+    } else { //display error message if the currency is not found
       loading.warn(`${chalk.yellow(` The ${item} currency not found `)}`);
     }
   });
 
   console.log();
   console.log(
-    chalk.underline.gray(
+    chalk.underline.gray( // gray message, the type of currency we wanted to convert and the amount
       ` Conversion of ${chalk.bold(from)} ${chalk.bold(amount)}`
     )
   );
   process.exit(1);
 };
-
+// set attributes to our commands
 const cash = async command => {
-  const amount = command.amount;
-  const from = command.from.toUpperCase();
-  const to = command.to
-    .filter(item => item !== from)
-    .map(item => item.toUpperCase());
+  const amount = command.amount; //amount
+  const from = command.from.toUpperCase(); //set the type of currency we want to convert,  to Upper Case
+  const to = command.to // Type of final currency
+    .filter(item => item !== from) //if it exists
+    .map(item => item.toUpperCase()); //to upper case
 
-  console.log();
+  console.log();//message while loading
   const loading = ora({
     'text': 'Converting currency...',
     'color': 'green',

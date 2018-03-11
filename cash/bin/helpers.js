@@ -8,6 +8,7 @@ const config = new Conf();
 
 updateNotifier({pkg}).notify();
 
+// take the first parameter given after index.js (should be a number) and convert it to the default currency
 const saveCurrencies = argv => {
   config.set('defaultFrom', argv[1] || config.get('defaultFrom', 'USD'));
   config.set(
@@ -19,12 +20,14 @@ const saveCurrencies = argv => {
   console.log(chalk.green('Saved default currencies to ' + config.path));
   process.exit(1);
 };
-
+// display the version
 const version = () => {
   console.log(pkg.version);
   process.exit(1);
 };
 
+//show the way to use index.js : amount to currency
+//and display the commands and exemples
 const help = () => {
   console.log(`
 Usage:
@@ -71,7 +74,7 @@ const helpers = argv => {
   ) {
     help();
   }
-
+  //Save
   if (
     argv.indexOf('--save') !== - 1
     || argv.indexOf('-s') !== - 1
